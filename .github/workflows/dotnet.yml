@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: write  # Add this line to give write permission
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
