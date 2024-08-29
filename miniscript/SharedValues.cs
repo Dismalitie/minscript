@@ -8,5 +8,13 @@ namespace miniscript
 {
     public class SharedValues
     {
+        public enum StandardReturnTypes
+        {
+            String,
+            Bool,
+            Integer,
+            Dynamic,
+            Decimal,
+        }
     }
 }

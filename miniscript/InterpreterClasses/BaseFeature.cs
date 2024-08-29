@@ -19,5 +19,10 @@ namespace miniscript.InterpreterClasses
         {
 
         }
+
+        public virtual object Returnee()
+        {
+            return null;
+        }
     }
 }

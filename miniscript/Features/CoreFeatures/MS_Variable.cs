@@ -1,54 +1,56 @@
 ﻿using miniscript.InterpreterClasses;
-using System.Collections.Generic;
 
 namespace miniscript.Features.CoreFeatures
 {
     internal class MS_Variable : BaseFeature
     {
-        public enum MS_Variable_Type
-        {
-            String,
-            Bool,
-            Integer,
-            Dynamic,
-            
-            StringCollection,
-            BoolCollection,
-            IntegerCollection,
-            DynamicCollection,
-        }
+        public static Dictionary<string, MS_Variable> Variables = new Dictionary<string, MS_Variable>();
 
-        public MS_Variable_Type Type;
         public string Name;
         public object Value;
 
         public override void Invoke(FeatureCallArgs args)
         {
-            // fmt: #var <type> <name> <val>
-            if (args.ConstructorTokens[0] == "str") { Type = MS_Variable_Type.String; }
-            else if (args.ConstructorTokens[0] == "bool") { Type = MS_Variable_Type.Bool; }
-            else if (args.ConstructorTokens[0] == "int") { Type = MS_Variable_Type.Integer; }
-            else if (args.ConstructorTokens[0] == "dyn") { Type = MS_Variable_Type.Dynamic; }
-            else if (args.ConstructorTokens[0] == "str[]") { Type = MS_Variable_Type.StringCollection; }
-            else if (args.ConstructorTokens[0] == "bool[]") { Type = MS_Variable_Type.BoolCollection; }
-            else if (args.ConstructorTokens[0] == "int[]") { Type = MS_Variable_Type.IntegerCollection; }
-            else if (args.ConstructorTokens[0] == "dyn[]") { Type = MS_Variable_Type.DynamicCollection; }
+            // fmt: #var <name> <val>
+
+            if (Funcs.CheckAlphanumeric(args.ConstructorTokens[0]))
+            {
+                Name = args.ConstructorTokens[0];
+            }
             else
             {
                 List<string> fixes = new List<string>
                 {
-                    "Check that variable type is one of:",
-                    "str - String",
-                    "int - Integer",
-                    "bool - Bool",
-                    "dyn - Dynamic",
-                    "str[] - String Collection",
-                    "bool[] - Bool Collection",
-                    "int[] - Integer Collection",
-                    "dyn[] - Dynamic Collection",
+                    "Check that the variable name only consists of:",
+                    "Characters a through z",
+                    "Characters A through Z",
+                    "Numbers 0 through 9",
                 };
-                Funcs.Error("Variable type is not valid.", Funcs.ErrorType.ArgumentError, true, fixes);
+                Funcs.Error("Variable name cannot contain special characters.", Funcs.ErrorType.ArgumentError, true, fixes);
             }
+
+            Value = Funcs.CastToType(args.ConstructorTokens[1]);
+
+            Variables.TryGetValue(Name, out MS_Variable v);
+            if (v != null)
+            {
+                Variables[Name] = this; // overwrite it
+            }
+
+            Variables.Add(Name, this);
+        }
+
+        public override void DebugInvoke(FeatureCallArgs args)
+        {
+            Funcs.FeatureLog("new var");
+            Funcs.FeatureLog("name: " + Name);
+            Funcs.FeatureLog("val: " + Value);
+            Funcs.FeatureLog("type: " + Value.GetType());
+        }
+
+        public override object Returnee()
+        {
+            return Value;
         }
     }
 }

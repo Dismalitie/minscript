@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace miniscript.InterpreterClasses
@@ -14,7 +15,7 @@ namespace miniscript.InterpreterClasses
 
             ConsoleColor prevCol = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("[f_dbg]" + msg);
+            Console.WriteLine("[f_dbg][ln" + Program.lineNumber + "] " + msg);
             Console.ForegroundColor = prevCol;
         }
 
@@ -114,7 +115,7 @@ namespace miniscript.InterpreterClasses
 
                 ConsoleColor prevCol = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("[i_dbg]" + msg);
+                Console.WriteLine("[i_dbg][ln" + Program.lineNumber + "] " + msg);
                 Console.ForegroundColor = prevCol;
             } // i_dbg log
 
@@ -130,7 +131,6 @@ namespace miniscript.InterpreterClasses
             else
             {
                 #region i_dbg stuff
-                Log("[ln] " + Program.lineNumber.ToString());
                 Log("[fcall] " + ln.Split(' ')[0]);
                 Log("[f_dbg][status] " + _InterpreterChecks.InterpreterRuntimeFlags_FeatureDebug.ToString());
                 Log("[dmp_c][status] " + _InterpreterChecks.InterpreterRuntimeFlags_DumpComments.ToString());
@@ -141,6 +141,69 @@ namespace miniscript.InterpreterClasses
                 if (_InterpreterChecks.InterpreterRuntimeFlags_FeatureDebug) { _Config.FeatureRegistry[ln.Split(' ')[0]].DebugInvoke(new FeatureCallArgs(ln)); }
             }
         }
+
+        #endregion
+
+        #region CastToType
+
+        public static object CastToType(string input)
+        {
+            // check for null or empty input
+            if (string.IsNullOrWhiteSpace(input))
+                return input;
+
+            // check for bool
+            if (bool.TryParse(input, out bool boolResult))
+                return boolResult;
+
+            // check for int
+            if (int.TryParse(input, out int intResult))
+                return intResult;
+
+            // check for decimal
+            if (float.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out float floatResult))
+                return floatResult;
+
+            // check for string with quotes
+            if (input.StartsWith("\"") && input.EndsWith("\""))
+            {
+                return input.Trim('"');
+            }
+
+            // return as string if none of the above conditions matched
+            return input;
+        }
+
+        #endregion
+
+        #region GetTypeFromString
+
+        public static Type GetTypeFromString(string input)
+        {
+            // Check for null or empty input
+            if (string.IsNullOrWhiteSpace(input))
+                return typeof(string); // Consider null/empty input as a string type
+
+            // Check for boolean
+            if (bool.TryParse(input, out _))
+                return typeof(bool);
+
+            // Check for integer
+            if (int.TryParse(input, out _))
+                return typeof(int);
+
+            // Check for float (double)
+            if (double.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out _))
+                return typeof(double);
+
+            // Check for string with quotes
+            if (input.StartsWith("\"") && input.EndsWith("\""))
+                return typeof(string);
+
+            // If none of the above conditions match, return as object
+            return typeof(object);
+        }
+
 
         #endregion
     }
