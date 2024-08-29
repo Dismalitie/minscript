@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/upload-artifact@v4
     - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -26,3 +27,8 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Publish artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build
+        path: /home/runner/work/minscript/minscript/miniscript/bin/Debug/net8.0/
