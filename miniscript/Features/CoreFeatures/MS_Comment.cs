@@ -6,7 +6,7 @@ namespace miniscript.Features.CoreFeatures
     {
         private FeatureCallArgs args;
 
-        public override void Invoke(FeatureCallArgs args)
+        public override object? Invoke(FeatureCallArgs args)
         {
             this.args = args;
             if (_InterpreterChecks.InterpreterRuntimeFlags_DumpComments)
@@ -16,6 +16,7 @@ namespace miniscript.Features.CoreFeatures
                 Console.WriteLine("[comment][ln" + Program.lineNumber + "] " + args.RawLine);
                 Console.ForegroundColor = prevColor;
             }
+            return null;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace miniscript.Features.CoreFeatures
         public string Name;
         public object Value;
 
-        public override void Invoke(FeatureCallArgs args)
+        public override object? Invoke(FeatureCallArgs args)
         {
             // fmt: #var <name> <val>
 
@@ -34,10 +34,17 @@ namespace miniscript.Features.CoreFeatures
             Variables.TryGetValue(Name, out MS_Variable v);
             if (v != null)
             {
-                Variables[Name] = this; // overwrite it
+                List<string> fixes = new List<string>
+                {
+                    "Check variable spelling",
+                    "Check if variable is used",
+                };
+                Funcs.Error("Variable name already defined.", Funcs.ErrorType.ArgumentError, true, fixes);
             }
 
             Variables.Add(Name, this);
+
+            return Value;
         }
 
         public override void DebugInvoke(FeatureCallArgs args)
@@ -46,11 +53,6 @@ namespace miniscript.Features.CoreFeatures
             Funcs.FeatureLog("name: " + Name);
             Funcs.FeatureLog("val: " + Value);
             Funcs.FeatureLog("type: " + Value.GetType());
-        }
-
-        public override object Returnee()
-        {
-            return Value;
         }
     }
 }
