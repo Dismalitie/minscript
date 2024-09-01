@@ -115,7 +115,7 @@ namespace miniscript.InterpreterClasses
 
                 ConsoleColor prevCol = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("[i_dbg][ln" + Program.lineNumber + "] " + msg);
+                Console.WriteLine("[i_dbg][ln" + Program.lineNumber + "]" + msg);
                 Console.ForegroundColor = prevCol;
             } // i_dbg log
 

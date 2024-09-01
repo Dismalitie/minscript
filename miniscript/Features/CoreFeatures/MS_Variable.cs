@@ -50,9 +50,9 @@ namespace miniscript.Features.CoreFeatures
         public override void DebugInvoke(FeatureCallArgs args)
         {
             Funcs.FeatureLog("new var");
-            Funcs.FeatureLog("name: " + Name);
-            Funcs.FeatureLog("val: " + Value);
-            Funcs.FeatureLog("type: " + Value.GetType());
+            Funcs.FeatureLog("name: " + args.ConstructorTokens[0]);
+            Funcs.FeatureLog("val: " + Funcs.CastToType(args.ConstructorTokens[1]));
+            Funcs.FeatureLog("type: " + Funcs.CastToType(args.ConstructorTokens[1]).GetType());
         }
     }
 }
