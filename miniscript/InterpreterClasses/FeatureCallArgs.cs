@@ -32,7 +32,7 @@ namespace miniscript.InterpreterClasses
                 List<string> args = new List<string>();
                 foreach (string arg in bracketSet.Split(','))
                 {
-                    args.Add(arg.Trim());
+                    args.Add(arg.Trim().Remove(0, 1).Remove(arg.Length - 2, 1));
                 }
                 brackets.Add(args);
             }

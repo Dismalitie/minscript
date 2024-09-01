@@ -100,7 +100,7 @@ namespace miniscript.InterpreterClasses
 
         #region Interpret
 
-        public static object Interpret(string ln)
+        public static object? Interpret(string ln)
         {
             if (ln == "") // if line empty, dont bother
             {
@@ -137,10 +137,8 @@ namespace miniscript.InterpreterClasses
                 Console.WriteLine(""); // new line to sep logs
                 #endregion
 
-                if (Program.attributes.Contains("no_returns")) { _Config.FeatureRegistry[ln.Split(' ')[0]].Invoke(new FeatureCallArgs(ln)); } // if the feature has the NoReturn attribute, dont return anything.
-                else { return _Config.FeatureRegistry[ln.Split(' ')[0]].Invoke(new FeatureCallArgs(ln)); }
-
                 if (_InterpreterChecks.InterpreterRuntimeFlags_FeatureDebug) { _Config.FeatureRegistry[ln.Split(' ')[0]].DebugInvoke(new FeatureCallArgs(ln)); }
+                return _Config.FeatureRegistry[ln.Split(' ')[0]].Invoke(new FeatureCallArgs(ln));
             }
 
             return null;

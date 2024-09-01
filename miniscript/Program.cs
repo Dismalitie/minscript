@@ -5,6 +5,7 @@ public class Program
 {
     public static int lineNumber = 0;
     public static bool debugMode = false;
+    public static string file;
 
     static void Main(string[] args)
     {
@@ -64,7 +65,7 @@ public class Program
             return;
         }
 
-        string file = File.ReadAllText(filepath);
+        file = File.ReadAllText(filepath);
 
         #endregion
 

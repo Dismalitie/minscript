@@ -12,7 +12,9 @@ namespace miniscript
         public static Dictionary<string, BaseFeature> FeatureRegistry = new Dictionary<string, BaseFeature>() // This is where all custom features will go.
         {
             { "~~", new Features.CoreFeatures.MS_Comment() },
-            { "#var", new Features.CoreFeatures.MS_Variable() }
+            { "var", new Features.CoreFeatures.MS_Variable() },
+            { "Console.WriteLn", new Features.CoreFeatures.MS_Console_WriteLn() },
+            { "Console.Write", new Features.CoreFeatures.MS_Console_Write() },
         };
     }
 }

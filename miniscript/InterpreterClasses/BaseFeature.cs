@@ -11,8 +11,6 @@ namespace miniscript.InterpreterClasses
     {
         public BaseFeature() { }
 
-        public Dictionary<string, BaseFeature> SubFeatures = new Dictionary<string, BaseFeature>();
-
         public virtual object? Invoke(FeatureCallArgs args)
         {
             return null;

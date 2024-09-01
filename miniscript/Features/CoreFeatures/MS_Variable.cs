@@ -11,7 +11,7 @@ namespace miniscript.Features.CoreFeatures
 
         public override object? Invoke(FeatureCallArgs args)
         {
-            // fmt: #var <name> <val>
+            // syntax: var <name> <val>
 
             if (Funcs.CheckAlphanumeric(args.ConstructorTokens[0]))
             {
