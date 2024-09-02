@@ -100,7 +100,7 @@ namespace miniscript.InterpreterClasses
 
         #region Interpret
 
-        public static object? Interpret(string ln)
+        public static Value? Interpret(string ln)
         {
             if (ln == "") // if line empty, dont bother
             {

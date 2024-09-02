@@ -16,5 +16,10 @@ namespace miniscript
             Dynamic,
             Decimal,
         }
+
+        public List<string> DisallowedVariableNames = new List<string>()
+        {
+            "ConsoleColors"
+        };
     }
 }

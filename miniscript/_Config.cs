@@ -15,6 +15,7 @@ namespace miniscript
             { "var", new Features.CoreFeatures.MS_Variable() },
             { "Console.WriteLn", new Features.CoreFeatures.MS_Console.MS_Console_WriteLn() },
             { "Console.Write", new Features.CoreFeatures.MS_Console.MS_Console_Write() },
+            { "Console.ForegroundColor", new Features.CoreFeatures.MS_Console.MS_Console_ForegroundColor() },
         };
     }
 }

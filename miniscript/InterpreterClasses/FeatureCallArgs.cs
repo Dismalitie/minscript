@@ -6,7 +6,7 @@ namespace miniscript.InterpreterClasses
     {
         public string FeatureKeyword;
         public List<string> ConstructorTokens;
-        public List<List<string>> Arguments;
+        public List<List<Value>> Arguments;
         public string RawLine;
 
         public FeatureCallArgs(string line)
@@ -26,13 +26,24 @@ namespace miniscript.InterpreterClasses
             constructorTokens.Remove(FeatureKeyword); // remove FeatureKeyword
             ConstructorTokens = constructorTokens;
             
-            List<List<string>> brackets = new List<List<string>>();
+            List<List<Value>> brackets = new List<List<Value>>();
             foreach (string bracketSet in Funcs.ExtractBrackets(line)) // can have multiple sets of brackets
             {
-                List<string> args = new List<string>();
+                List<Value> args = new List<Value>();
                 foreach (string arg in bracketSet.Split(','))
                 {
-                    args.Add(arg.Trim().Remove(0, 1).Remove(arg.Length - 2, 1));
+                    if (arg.Trim().StartsWith('"') && arg.Trim().EndsWith('"'))
+                    {
+                        args.Add(new Value(typeof(string), arg.Trim().Remove(0, 1).Remove(arg.Length - 2, 1), null));
+                    }
+                    else if (_Config.FeatureRegistry.ContainsKey(arg))
+                    {
+                        args.Add(new Value(typeof(Value), Funcs.Interpret(arg), null));
+                    }
+                    else
+                    {
+                        args.Add(new Value(typeof(string), arg.Trim(), null));
+                    }
                 }
                 brackets.Add(args);
             }

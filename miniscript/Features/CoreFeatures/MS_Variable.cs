@@ -9,7 +9,7 @@ namespace miniscript.Features.CoreFeatures
         public string Name;
         public object Value;
 
-        public override object? Invoke(FeatureCallArgs args)
+        public override Value? Invoke(FeatureCallArgs args)
         {
             // syntax: var <name> <val>
 
@@ -44,7 +44,7 @@ namespace miniscript.Features.CoreFeatures
 
             Variables.Add(Name, this);
 
-            return Value;
+            return new Value(args.ConstructorTokens[1].GetType(), Value, this);
         }
 
         public override void DebugInvoke(FeatureCallArgs args)

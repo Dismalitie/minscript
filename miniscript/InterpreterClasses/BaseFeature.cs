@@ -11,7 +11,7 @@ namespace miniscript.InterpreterClasses
     {
         public BaseFeature() { }
 
-        public virtual object? Invoke(FeatureCallArgs args)
+        public virtual Value? Invoke(FeatureCallArgs args)
         {
             return null;
         }

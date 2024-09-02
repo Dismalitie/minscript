@@ -9,11 +9,11 @@ namespace miniscript.Features.CoreFeatures.MS_Console
 {
     internal class MS_Console_Write : BaseFeature
     {
-        public override object? Invoke(FeatureCallArgs args)
+        public override Value? Invoke(FeatureCallArgs args)
         {
-            foreach (string arg in args.Arguments[0])
+            foreach (Value arg in args.Arguments[0])
             {
-                Console.Write(arg);
+                Console.Write(arg.Val);
             }
             return null;
         }

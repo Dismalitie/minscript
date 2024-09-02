@@ -6,7 +6,7 @@ namespace miniscript.Features.CoreFeatures
     {
         private FeatureCallArgs args;
 
-        public override object? Invoke(FeatureCallArgs args)
+        public override Value? Invoke(FeatureCallArgs args)
         {
             this.args = args;
             if (_InterpreterChecks.InterpreterRuntimeFlags_DumpComments)
