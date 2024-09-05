@@ -206,7 +206,6 @@ namespace miniscript.InterpreterClasses
             return typeof(object);
         }
 
-
         #endregion
     }
 }
